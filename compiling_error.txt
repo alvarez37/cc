@@ -1,5 +1,4 @@
-/tmp/ccypcRn1.o: En la función `main':
-main.cpp:(.text+0x1b): referencia a `punto::punto(int, int)' sin definir
-main.cpp:(.text+0x3c): referencia a `punto::~punto()' sin definir
-main.cpp:(.text+0x48): referencia a `punto::~punto()' sin definir
+/tmp/ccfnt7W7.o: En la función `main':
+main.cpp:(.text+0x1a): referencia a `punto::punto(int, int)' sin definir
+main.cpp:(.text+0x30): referencia a `punto::punto(int, int)' sin definir
 collect2: error: ld returned 1 exit status

@@ -1,15 +1,17 @@
 #include<iostream>
 using namespace std;
 
+
 class punto{
-  public:
+public:
 
-    punto(int,int);
-    punto();
-    ~punto(point &o);
-    void print();
+  punto(int ,int);
+  punto();
+  punto(punto &o);
+  void print();
+  void offset(int,int);
 
-  private:
-    double x,y;
+private:
+  double x,y;
 
 };

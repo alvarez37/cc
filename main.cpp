@@ -5,9 +5,8 @@ using namespace std;
 
 int main(){
 
-  punto p1(4,6);
-  punto p2=p1;
-
+  punto p(6,7);
+  punto q(5,4);
 
   return 0;
 }
