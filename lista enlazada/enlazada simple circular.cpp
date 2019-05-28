@@ -6,6 +6,7 @@ class nodo{
   public:
     T2 valor;
     nodo * next;
+
     nodo (T2 v_valor, nodo * n_next=NULL){
       valor=v_valor;
       next= n_next;
@@ -18,63 +19,74 @@ template <class T>
 class lista_enlazada{
 
     public:
+        ~lista_enlazada(){
+         std::cout << "elimidano por jean"<<endl;
+        }
         nodo<T> *head=NULL;
         bool find(T valor,nodo <T> * &ptr);
+        void apuntar_al_final(nodo <T> * &ptr);
+
         void add (T dato);
         bool buscar (T dato);
+        int contador=0;
 
         void show();
         void remover(T dato);
 
 };
 
+
+
 template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
     ptr=NULL;
-    for (nodo<T> *p=head; p and p->valor<=valor ; ptr=p , p=p->next) {
-      if (p->valor==valor) {
+    int i=0;
+      for ( nodo<T> *p=head; p and p->valor<=valor and i<contador ; ptr=p , p=p->next,i++) {
+        if (p->valor==valor) {
 
-        return true;
+          return true;
+           }
          }
-       }
-
       return false;
 }
 
 template <class T>
-bool lista_enlazada<T>::buscar(T valor){
-  for (nodo<T> *p=head; p and p->valor<=valor ; p=p->next) {
-    if (p->valor==valor) {
-      return true;
-       }
-     }
-    return false;
-
+void lista_enlazada<T>::apuntar_al_final(nodo <T> * &ptr){
+    ptr=NULL;
+    int i=0;
+    for ( nodo<T> *p=head;  i<contador ; ptr=p , p=p->next,i++) {
+        // std::cout <<  p->valor <<'\t';
+      }
 }
-
 
 template <class T>
 void lista_enlazada<T>::add(T dato){
   nodo<T> *pos;
+  nodo<T> *temp;
 
   if (!find(dato,pos)) {
     if (!pos) {
+      contador++;
       head= new nodo<T>(dato,head);
       }
     else{
+      contador++;
       pos->next=new nodo<T>(dato,pos->next);
+
       }
     }
+    apuntar_al_final(temp);
+    temp->next=head;
   }
 
 template <class T>
 void lista_enlazada<T>::show() {
 
   std::cout  << '\n';
-  for (nodo <T> *p=head; p ; p=p->next) {
-      std::cout << "[ id: " << p<< " valor: " << p->valor << " ]"<<" ";
+  int i=0;
+  for (nodo <T> *p=head ; p && i<contador ; p=p->next, i++) {
+      std::cout << i<< "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
       // std::cout <<  p->valor <<'\t';
-
     }
   std::cout  << '\n';
   std::cout  << '\n';
@@ -85,16 +97,23 @@ void lista_enlazada<T>::show() {
 template <class T>
 void lista_enlazada<T>::remover(T dato){
   nodo<T> *pos;
+  nodo<T> *temp;
+
       if (find(dato,pos)) {
-        find(dato,pos);
         if(pos!=0){
+          contador--;
           pos->next=pos->next->next;
           delete pos->next;
         }
-
         else{
+
+          contador--;
           head=head->next;
           delete head;
+        }
+        if (contador>0) {
+          apuntar_al_final(temp);
+          temp->next=head;
         }
       }
       else{
@@ -103,24 +122,26 @@ void lista_enlazada<T>::remover(T dato){
 
 }
 
-
-
-
-
 int main(){
 
     lista_enlazada <int> p1;
+
+        p1.show();
         p1.add(1);
-        p1.add(10);
-        p1.add(100);
-        p1.add(1000);
+        p1.show();
+        p1.add(9);
+        p1.add(5);
+        p1.show();
+        p1.add(3);
+        p1.add(8);
+
 
         p1.show();
-        p1.remover(10);
+        p1.remover(5);
+        p1.remover(1);
+        p1.remover(9);
         p1.show();
-        std::cout << p1.buscar(1) << '\n';
 
-        p1.show();
 
     return 0;
 }
