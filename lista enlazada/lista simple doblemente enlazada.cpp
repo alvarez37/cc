@@ -7,7 +7,6 @@ class nodo{
     static int contador;
     T2 valor;
     nodo * next;
-    nodo * prev;
     ~nodo(){
       contador--;
     }
@@ -69,16 +68,9 @@ void lista_enlazada<T>::add(T dato){
   if (!find(dato,pos)) {
     if (!pos) {
       head= new nodo<T>(dato,head);
-      head->prev=pos;
-
       }
     else{
-
-      std::cout << "................................................................" << '\n';
-      std::cout << "valor de pos   " <<pos << '\n';
-      std::cout << "................................................................" << '\n';
       pos->next=new nodo<T>(dato,pos->next);
-      pos->next->prev=pos;
       }
     }
   }
@@ -87,9 +79,8 @@ template <class T>
 void lista_enlazada<T>::show() {
 
   std::cout  << '\n';
-  int i=0;
-  for (nodo <T> *p=head; p ;i++, p=p->next) {
-      std::cout << i << "     [ id: " << p<< "    valor: " << p->valor <<"    prev->  " << p->prev <<"    next->  " << p->next<<  " ]"<<" "<< endl;
+  for (nodo <T> *p=head; p ; p=p->next) {
+      std::cout <<  "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
     }
     std::cout << "cantidad de elementos: " << head->contador<< '\n';
   std::cout  << '\n';
@@ -123,14 +114,15 @@ void lista_enlazada<T>::remover(T dato){
 int main(){
 
     lista_enlazada <int> p1;
-        p1.show();
         p1.add(1);
+        p1.add(10);
+        p1.add(100);
+        p1.add(1000);
+
         p1.show();
-        p1.add(2);
+        p1.remover(10);
         p1.show();
-        p1.add(3);
-        p1.show();
-        std::cout << "esta: " << p1.buscar(5) << '\n';
+        std::cout << "esta: " << p1.buscar(1) << '\n';
 
         p1.show();
 
