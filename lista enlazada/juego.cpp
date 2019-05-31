@@ -4,15 +4,22 @@ using namespace std;
 template <class T2>
 class nodo{
   public:
+    static int contador;
     T2 valor;
     nodo * next;
+    ~nodo(){
+      contador--;
+    }
     nodo (T2 v_valor, nodo * n_next=NULL){
+      contador++;
       valor=v_valor;
       next= n_next;
     }
-
-
 };
+
+template <class T2>
+int nodo<T2>::contador=0;
+
 
 template <class T>
 class lista_enlazada{
@@ -27,7 +34,6 @@ class lista_enlazada{
         void add (T dato);
         bool buscar (T dato);
         bool una_vez=true;
-        int contador=0;
 
         void show();
         void remover(T dato);
@@ -41,7 +47,7 @@ template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
     ptr=NULL;
     int i=0;
-      for ( nodo<T> *p=head; p and p->valor<=valor and i<contador ; ptr=p , p=p->next,i++) {
+      for ( nodo<T> *p=head; p and p->valor<=valor and i<head->contador ; ptr=p , p=p->next,i++) {
         if (p->valor==valor) {
           return true;
            }
@@ -53,7 +59,7 @@ template <class T>
 void lista_enlazada<T>::apuntar_al_final(nodo <T> * &ptr){
     ptr=NULL;
     int i=0;
-    for ( nodo<T> *p=head;  i<contador ; ptr=p , p=p->next,i++) {
+    for ( nodo<T> *p=head;  i<head->contador ; ptr=p , p=p->next,i++) {
         // std::cout <<  p->valor <<'\t';
       }
 }
@@ -65,13 +71,10 @@ void lista_enlazada<T>::add(T dato){
 
   if (!find(dato,pos)) {
     if (!pos) {
-      contador++;
       head= new nodo<T>(dato,head);
       }
     else{
-      contador++;
       pos->next=new nodo<T>(dato,pos->next);
-
       }
     }
     apuntar_al_final(temp);
@@ -83,7 +86,7 @@ void lista_enlazada<T>::show() {
 
   std::cout  << '\n';
   int i=0;
-  for (nodo <T> *p=head ; p && i<contador; p=p->next, i++) {
+  for (nodo <T> *p=head ; p && i<head->contador; p=p->next, i++) {
       std::cout << i<< "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
       // std::cout <<  p->valor <<'\t';
     }
@@ -100,9 +103,9 @@ void lista_enlazada<T>::adicionar(T soldados,T posicion) {
     }
     std::cout << "lista enlazada" << '\n';
     show();
-    while (contador>2) {
+    while (head->contador>2) {
       remover(posicion);
-      show();
+
       }
       std::cout << "final" << '\n';
       show();
@@ -117,8 +120,6 @@ void lista_enlazada<T>::remover(T dato){
   nodo<T> *pos;
 
       int i=1;
-      contador--;
-
 
       for ( ;  i<dato ; iterador=iterador->next,i++){
         if (una_vez) {
@@ -141,7 +142,7 @@ void lista_enlazada<T>::remover(T dato){
            head=head->next;
            delete head;
          }
-         if (contador>0) {
+         if (head->contador>0) {
            apuntar_al_final(temp);
            temp->next=head;
          }
@@ -153,7 +154,7 @@ int main(){
 
     lista_enlazada <int> p1;
 
-        p1.adicionar(40,3);
+        p1.adicionar(300,80);
 
     return 0;
 }

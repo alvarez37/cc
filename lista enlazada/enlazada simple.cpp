@@ -4,15 +4,23 @@ using namespace std;
 template <class T2>
 class nodo{
   public:
+    static int contador;
     T2 valor;
     nodo * next;
+    ~nodo(){
+      contador--;
+    }
     nodo (T2 v_valor, nodo * n_next=NULL){
+      contador++;
       valor=v_valor;
       next= n_next;
     }
 
 
 };
+
+template <class T2>
+int nodo<T2>::contador=0;
 
 template <class T>
 class lista_enlazada{
@@ -72,13 +80,10 @@ void lista_enlazada<T>::show() {
 
   std::cout  << '\n';
   for (nodo <T> *p=head; p ; p=p->next) {
-      std::cout << "[ id: " << p<< " valor: " << p->valor << " ]"<<" ";
-      // std::cout <<  p->valor <<'\t';
-
+      std::cout <<  "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
     }
+    std::cout << "cantidad de elementos: " << head->contador<< '\n';
   std::cout  << '\n';
-  std::cout  << '\n';
-
 
 }
 
@@ -100,7 +105,6 @@ void lista_enlazada<T>::remover(T dato){
       else{
         std::cout << "ese elemento no existe " << '\n';
       }
-
 }
 
 
@@ -118,7 +122,7 @@ int main(){
         p1.show();
         p1.remover(10);
         p1.show();
-        std::cout << p1.buscar(1) << '\n';
+        std::cout << "esta: " << p1.buscar(1) << '\n';
 
         p1.show();
 
