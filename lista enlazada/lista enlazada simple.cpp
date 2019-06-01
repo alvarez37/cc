@@ -33,8 +33,20 @@ class lista_enlazada{
 
         void show();
         void remover(T dato);
+        void remover_todo();
+
 
 };
+
+template <class T>
+void lista_enlazada<T>::remover_todo(){
+    nodo<T> *pos;
+    int i=0;
+    for ( nodo<T> *p=head;  i<head->contador ; p=p->next,i++) {
+        delete p;
+      }
+}
+
 
 template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
@@ -121,6 +133,7 @@ int main(){
 
         p1.show();
         p1.remover(10);
+        p1.remover_todo();
         p1.show();
         std::cout << "esta: " << p1.buscar(1) << '\n';
 

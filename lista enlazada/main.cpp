@@ -7,14 +7,17 @@ class nodo{
     static int contador;
     T2 valor;
     nodo * next;
-    nodo * prev;
     ~nodo(){
+      std::cout << " adios  " << valor << '\n';
+
       contador--;
     }
     nodo (T2 v_valor, nodo * n_next=NULL){
+
       contador++;
       valor=v_valor;
       next= n_next;
+      std::cout << " hola  " << valor << '\n';
     }
 
 
@@ -34,8 +37,17 @@ class lista_enlazada{
 
         void show();
         void remover(T dato);
+        ~lista_enlazada(){
+
+          while ( head ) {
+              remover(head->valor);
+            }
+        }
+
 
 };
+
+
 
 template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
@@ -69,16 +81,9 @@ void lista_enlazada<T>::add(T dato){
   if (!find(dato,pos)) {
     if (!pos) {
       head= new nodo<T>(dato,head);
-      head->prev=pos;
-
       }
     else{
-
-      std::cout << "................................................................" << '\n';
-      std::cout << "valor de pos   " <<pos << '\n';
-      std::cout << "................................................................" << '\n';
       pos->next=new nodo<T>(dato,pos->next);
-      pos->next->prev=pos;
       }
     }
   }
@@ -87,11 +92,9 @@ template <class T>
 void lista_enlazada<T>::show() {
 
   std::cout  << '\n';
-  int i=0;
-  for (nodo <T> *p=head; p ;i++, p=p->next) {
-      std::cout << i << "     [ id: " << p<< "    valor: " << p->valor <<"    prev->  " << p->prev <<"    next->  " << p->next<<  " ]"<<" "<< endl;
+  for (nodo <T> *p=head; p ; p=p->next) {
+      std::cout <<  "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
     }
-    std::cout << "cantidad de elementos: " << head->contador<< '\n';
   std::cout  << '\n';
 
 }
@@ -99,16 +102,20 @@ void lista_enlazada<T>::show() {
 template <class T>
 void lista_enlazada<T>::remover(T dato){
   nodo<T> *pos;
+  nodo<T> *pos2;
+
       if (find(dato,pos)) {
-        find(dato,pos);
         if(pos!=0){
+          pos2= pos->next ;
           pos->next=pos->next->next;
-          delete pos->next;
+          delete pos2;
         }
 
         else{
+          pos2= head ;
+
           head=head->next;
-          delete head;
+          delete pos2;
         }
       }
       else{
@@ -122,17 +129,29 @@ void lista_enlazada<T>::remover(T dato){
 
 int main(){
 
-    lista_enlazada <int> p1;
-        p1.show();
-        p1.add(1);
-        p1.show();
-        p1.add(2);
-        p1.show();
-        p1.add(3);
-        p1.show();
-        std::cout << "esta: " << p1.buscar(5) << '\n';
+        lista_enlazada <int>  *p1 = new lista_enlazada<int> ;
 
-        p1.show();
+        p1->add(3);
+        p1->add(1);
+        p1->add(5);
+        p1->show();
+        p1->add(2);
+        p1->add(4);
+        p1->show();
+        // p1->remover(3);
+        // p1->remover(1);
+        // p1->remover(5);
+        p1->show();
+        // p1->remover(2);
+         p1->remover(4);
+        p1->show();
+        delete   p1;
+        p1->add(2);
+        p1->add(4);
+
+        std::cout << "..........." << '\n';
+
+        p1->show();
 
     return 0;
 }

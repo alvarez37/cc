@@ -7,6 +7,7 @@ class nodo{
     static int contador;
     T2 valor;
     nodo * next;
+    nodo * prev;
     ~nodo(){
       contador--;
     }
@@ -15,6 +16,8 @@ class nodo{
       valor=v_valor;
       next= n_next;
     }
+
+
 };
 
 template <class T2>
@@ -91,7 +94,7 @@ void lista_enlazada<T>::show() {
   std::cout  << '\n';
   int i=0;
   for (nodo <T> *p=head ; p && i<contador ; p=p->next, i++) {
-      std::cout << i<< "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
+    std::cout << i << "     [ id: " << p<< "    valor: " << p->valor <<"    prev->  " << p->prev <<"    next->  " << p->next<<  " ]"<<" "<< endl;
       // std::cout <<  p->valor <<'\t';
     }
     std::cout << "cantidad de elementos: " << head->contador<< '\n';
