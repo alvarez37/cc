@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+
 template <class T2>
 class nodo{
   public:
@@ -8,14 +9,18 @@ class nodo{
     T2 valor;
     nodo * next;
     ~nodo(){
+      // std::cout << " adios  " << valor << '\n';
       contador--;
     }
+
     nodo (T2 v_valor, nodo * n_next=NULL){
       contador++;
       valor=v_valor;
       next= n_next;
+      // std::cout << " hola  " << valor << '\n';
     }
 };
+
 
 template <class T2>
 int nodo<T2>::contador=0;
@@ -118,6 +123,7 @@ template <class T>
 void lista_enlazada<T>::remover(T dato){
   nodo<T> *temp;
   nodo<T> *pos;
+  nodo<T> *pos2;
 
       int i=1;
 
@@ -128,15 +134,17 @@ void lista_enlazada<T>::remover(T dato){
           una_vez=false;
         }
       }
+
+       pos2=iterador->next;
        dato=iterador->next->valor;
        iterador=iterador->next;
-       std::cout << "eliminar " << dato << '\n';
+       // std::cout << "eliminar " << dato << '\n';
 
        if (find(dato,pos)) {
          find(dato,pos);
          if(pos!=0){
            pos->next=pos->next->next;
-           delete pos->next;
+           delete pos2;
          }
          else{
            head=head->next;
@@ -147,14 +155,13 @@ void lista_enlazada<T>::remover(T dato){
            temp->next=head;
          }
        }
-
 }
 
 int main(){
 
     lista_enlazada <int> p1;
 
-        p1.adicionar(300,80);
+        p1.adicionar(300,5);
 
     return 0;
 }

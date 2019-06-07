@@ -7,17 +7,17 @@ class nodo{
     static int contador;
     T2 valor;
     nodo * next;
-    nodo * prev;
     ~nodo(){
+      std::cout << " adios  " << valor << '\n';
       contador--;
     }
+
     nodo (T2 v_valor, nodo * n_next=NULL){
       contador++;
       valor=v_valor;
       next= n_next;
+      std::cout << " hola  " << valor << '\n';
     }
-
-
 };
 
 template <class T2>
@@ -29,7 +29,9 @@ class lista_enlazada{
 
     public:
         ~lista_enlazada(){
-         std::cout << "elimidano por jean"<<endl;
+          while (head->contador) {
+            remover(head->valor);
+          }
         }
         nodo<T> *head=NULL;
         bool find(T valor,nodo <T> * &ptr);
@@ -37,7 +39,6 @@ class lista_enlazada{
 
         void add (T dato);
         bool buscar (T dato);
-        int contador=0;
 
         void show();
         void remover(T dato);
@@ -50,7 +51,7 @@ template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
     ptr=NULL;
     int i=0;
-      for ( nodo<T> *p=head; p and p->valor<=valor and i<contador ; ptr=p , p=p->next,i++) {
+      for ( nodo<T> *p=head; p and p->valor<=valor and i<head->contador ; ptr=p , p=p->next,i++) {
         if (p->valor==valor) {
 
           return true;
@@ -63,7 +64,7 @@ template <class T>
 void lista_enlazada<T>::apuntar_al_final(nodo <T> * &ptr){
     ptr=NULL;
     int i=0;
-    for ( nodo<T> *p=head;  i<contador ; ptr=p , p=p->next,i++) {
+    for ( nodo<T> *p=head;  i<head->contador ; ptr=p , p=p->next,i++) {
         // std::cout <<  p->valor <<'\t';
       }
 }
@@ -75,11 +76,9 @@ void lista_enlazada<T>::add(T dato){
 
   if (!find(dato,pos)) {
     if (!pos) {
-      contador++;
       head= new nodo<T>(dato,head);
       }
     else{
-      contador++;
       pos->next=new nodo<T>(dato,pos->next);
 
       }
@@ -93,8 +92,8 @@ void lista_enlazada<T>::show() {
 
   std::cout  << '\n';
   int i=0;
-  for (nodo <T> *p=head ; p && i<contador ; p=p->next, i++) {
-    std::cout << i << "     [ id: " << p<< "    valor: " << p->valor <<"    prev->  " << p->prev <<"    next->  " << p->next<<  " ]"<<" "<< endl;
+  for (nodo <T> *p=head ; p && i<head->contador ; p=p->next, i++) {
+      std::cout << i<< "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
       // std::cout <<  p->valor <<'\t';
     }
     std::cout << "cantidad de elementos: " << head->contador<< '\n';
@@ -108,21 +107,21 @@ void lista_enlazada<T>::show() {
 template <class T>
 void lista_enlazada<T>::remover(T dato){
   nodo<T> *pos;
+  nodo<T> *pos2;
   nodo<T> *temp;
 
       if (find(dato,pos)) {
         if(pos!=0){
-          contador--;
+          pos2=pos->next;
           pos->next=pos->next->next;
-          delete pos->next;
+          delete pos2;
         }
         else{
-
-          contador--;
+          pos2=head;
           head=head->next;
-          delete head;
+          delete pos2;
         }
-        if (contador>0) {
+        if (head->contador>0) {
           apuntar_al_final(temp);
           temp->next=head;
         }
@@ -137,21 +136,35 @@ int main(){
 
     lista_enlazada <int> p1;
 
-        p1.show();
-        p1.add(1);
-        p1.show();
-        p1.add(9);
-        p1.add(5);
-        p1.show();
-        p1.add(3);
-        p1.add(8);
+    int x;
+    int y;
 
+    while (true) {
+      std::cout << '\n';
+      std::cout << "-------------------------------------------" << '\n';
+      std::cout << "1 para agregar dato" << '\n';
+      std::cout << "2 para quitar dato" << '\n';
+      std::cout << "3 para mostrar datos" << '\n';
+      std::cout << "-------------------------------------------" << '\n';
+      std::cin >> x;
+      if (x==1) {
+        std::cout << "que dato agregar dato" << '\n';
+        std::cin >> y;
+          p1.add(y);
+      }
+      if (x==2) {
+        std::cout << "que dato quitar dato" << '\n';
+        std::cin >> y;
+        p1.remover(y);
+      }
+      if (x==3) {
+        p1.show();
 
-        p1.show();
-        p1.remover(5);
-        p1.remover(1);
-        p1.remover(9);
-        p1.show();
+      }
+      if (x==4) {
+          break;
+      }
+    }
 
 
     return 0;

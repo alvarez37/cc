@@ -29,6 +29,8 @@ class lista_enlazada{
     public:
         nodo<T> *head=NULL;
         bool find(T valor,nodo <T> * &ptr);
+        void apuntar_al_final(nodo <T> * &ptr);
+
         void add (T dato);
         bool buscar (T dato);
         void apuntar_al_final(nodo <T> * &ptr);
@@ -38,6 +40,16 @@ class lista_enlazada{
         void remover(T dato);
 
 };
+
+template <class T>
+void lista_enlazada<T>::apuntar_al_final(nodo <T> * &ptr){
+    ptr=NULL;
+    int i=0;
+    for ( nodo<T> *p=head;  i<contador ; ptr=p , p=p->next,i++) {
+        // std::cout <<  p->valor <<'\t';
+      }
+}
+
 
 template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
