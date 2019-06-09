@@ -134,10 +134,10 @@ void lista_enlazada<T>::remover(T dato){
 
 int main(){
 
-    lista_enlazada <int> p1;
+    lista_enlazada <char> p1;
 
     int x;
-    int y;
+    char y;
 
     while (true) {
       std::cout << '\n';
