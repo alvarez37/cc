@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1567254578 source:c:\users\jalva\documents\github\cc\pactica\main.cpp
+	<iostream>
+	<cmath>
+

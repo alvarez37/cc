@@ -4,49 +4,34 @@ using namespace std;
 template <class T2>
 class nodo{
   public:
-    static int contador;
+    int contador;
     T2 valor;
     nodo * next;
     ~nodo(){
       // std::cout << " adios  " << valor << '\n';
-      contador--;
     }
 
     nodo (T2 v_valor, nodo * n_next=NULL){
-      contador++;
       valor=v_valor;
       next= n_next;
-      // std::cout << " hola  " << valor << '\n';
+  //  std::cout << " hola  " << valor << '\n';
+
     }
-
-     nodo* operator ++(){
-      return *next;
-    };
-
 };
 
-template <class T2>
-int nodo<T2>::contador=0;
 
 template <class T>
 class lista_enlazada{
 
     public:
 
+        void get_tam();
         nodo<T> *head=NULL;
-
-
-
-        typedef nodo<T> * head2;
         bool find(T valor,nodo <T> * &ptr);
         void add (T dato);
         bool buscar (T dato);
 
         void show();
-
-        void showiterador();
-
-
         void remover(T dato);
         ~lista_enlazada(){
           while ( head ) {  remover(head->valor);  }
@@ -54,12 +39,12 @@ class lista_enlazada{
 };
 
 template <class T>
-void lista_enlazada<T>::showiterador() {
-
-  head2++;
-  std::cout << "showiterador: " << head2<< '\n';
-
+void  lista_enlazada<T>::get_tam() {
+  int i=0;
+  for (nodo <T> *p=head; p ; p=p->next, i++);
+  head->contador=i;
 }
+
 
 template <class T>
 bool lista_enlazada<T>::find(T valor,nodo <T> * &ptr){
@@ -98,6 +83,7 @@ void lista_enlazada<T>::add(T dato){
       pos->next=new nodo<T>(dato,pos->next);
       }
     }
+    get_tam();
   }
 
 template <class T>
@@ -108,7 +94,6 @@ void lista_enlazada<T>::show() {
       std::cout <<  "     [ id: " << p<< " valor: " << p->valor << " apunta  " << p->next<<  " ]"<<" "<< endl;
     }
   std::cout  << '\n';
-  std::cout << "numero de elementos: " << head->contador<< '\n';
 }
 
 template <class T>
@@ -135,54 +120,84 @@ void lista_enlazada<T>::remover(T dato){
       }
 }
 
+template <class T>
+void  merge( nodo  <T> * a, nodo <T> * b){
 
+  int menor = (b->contador < a->contador ) ? b->contador : a->contador;
+  int mayor = (b->contador > a->contador ) ? b->contador : a->contador;
+
+  std::cout << menor  << '\n';
+  nodo<T> *temp3 = a;
+
+  for (size_t i = 0; i < menor-1; i++ ) {
+
+    if (a->valor < b->valor   ) {
+
+      std::cout << "a: " << a->valor <<  " b: " << b->valor <<'\n';
+      nodo<T> *temp = a->next;
+      // std::cout << temp <<" "<< a->next << '\n';
+      a->next = b;
+      b=b->next;
+      a=a->next;
+
+      a->next=temp;
+      a=a->next;
+
+      std::cout << " a " << a->valor  << '\n';
+      std::cout << " b " << b->valor  << '\n';
+
+    }
+
+    // else{
+    //   nodo<T> *temp = a->next;
+    //   std::cout << b->valor << '\n';
+    // }
+  // }
+
+  }
+
+  nodo<T> *temp4 = a->next;
+  a->next = b;
+  if (menor != mayor )  {
+    a->next->next = temp4;
+  }
+  a=temp3;
+
+
+}
 int main(){
 
-    lista_enlazada <int> p1;
 
-    p1.add(1);
-    p1.add(2);
-    p1.show();
+  lista_enlazada <int> p1;
+  lista_enlazada <int> p2;
 
-    p1.showiterador();
-    p1.add(3);
-    p1.add(4);
-    p1.show();
+  p1.add(1);
+  p1.add(3);
+  p1.add(5);
+  p1.add(7);
+  p1.add(9);
+  p1.add(11);
+  p1.add(13);
+  p1.add(15);
+  p1.add(17);
+  p1.add(19);
+  p1.add(21);
+  p1.add(23);
 
 
+  p2.add(2);
+  p2.add(4);
+  p2.add(6);
+  p2.add(8);
+  p2.add(10);
+  p2.add(12);
 
-
-
-    // int x;
-    // int y;
-    //
-    // while (true) {
-    //   std::cout << '\n';
-    //   std::cout << "-------------------------------------------" << '\n';
-    //   std::cout << "1 para agregar dato" << '\n';
-    //   std::cout << "2 para quitar dato" << '\n';
-    //   std::cout << "3 para mostrar datos" << '\n';
-    //   std::cout << "-------------------------------------------" << '\n';
-    //   std::cin >> x;
-    //   if (x==1) {
-    //     std::cout << "que dato agregar dato" << '\n';
-    //     std::cin >> y;
-    //       p1.add(y);
-    //   }
-    //   if (x==2) {
-    //     std::cout << "que dato quitar dato" << '\n';
-    //     std::cin >> y;
-    //     p1.remover(y);
-    //   }
-    //   if (x==3) {
-    //     p1.show();
-    //
-    //   }
-    //   if (x==4) {
-    //       break;
-    //   }
-    // }
+  p2.show();
+  std::cout << ".........." << '\n';
+  p1.show();
+  merge(  p1.head , p2.head );
+  p1.show();
 
 
     return 0;
-}
+  }
